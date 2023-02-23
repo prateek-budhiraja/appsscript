@@ -1,4 +1,3 @@
-// fetch email id and send mail
 async function sendReminders() {
 	const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("email");
 	var values = sheet.getDataRange().getValues();
@@ -8,7 +7,7 @@ async function sendReminders() {
 	for (let p = 0; p < purport.length; p++) {
 		resultPurport += `<p style='text-align:center'>${purport[p]}</p><br/>`;
 	}
-	for (let i = 0; i < 1; i++) {
+	for (let i = 0; i < values.length; i++) {
 		try {
 			MailApp.sendEmail({
 				to: `${values[i]}`,
@@ -106,7 +105,6 @@ async function sendReminders() {
 	console.log(MailApp.getRemainingDailyQuota());
 }
 
-// call api to fetch and return BG verse object
 async function generateBodyContent() {
 	let result = await UrlFetchApp.fetch(
 		"https://bhagavadgita-api.onrender.com/v1/bg"
@@ -114,7 +112,7 @@ async function generateBodyContent() {
 	return JSON.parse(result).verse[0];
 }
 
-// util function to return date in MMM DD, YYYY format
+// util function to return date in MM DD, YYYY format
 function getTodayDate() {
 	const todayDate = new Date();
 	let month = "";
@@ -162,8 +160,8 @@ function getTodayDate() {
 }
 
 // Trigger sendReminders function everyday at 6am
-ScriptApp.newTrigger("sendReminders")
-	.timeBased()
-	.atHour(6)
-	.everyDays(1)
-	.create();
+// ScriptApp.newTrigger("sendReminders")
+// 	.timeBased()
+// 	.atHour(6)
+// 	.everyDays(1)
+// 	.create();
